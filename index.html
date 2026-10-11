@@ -222,9 +222,9 @@ return html`<div class="grid gap-4"><${Card} title="System users" act=${html`<${
 function Login({users,go}){const [e,setE]=useState(''),[p,setP]=useState(''),[er,setEr]=useState('');
 const tr=(em,pw)=>{const u=users.find(x=>x.email===em.trim()&&x.pw===pw);!u?setEr('Invalid email or password'):!u.active?setEr('This account is deactivated'):go(u.id)};
 return html`<div class="min-h-screen flex items-center justify-center p-4" style=${{background:'var(--navy)'}}><div class="card grid gap-3" style=${{width:'100%',maxWidth:400}}><div><div class="font-bold text-xl">أنامل الزهور للأيدي العاملة</div><div class="lbl">Anamel Al Zohoor · ERP sign in</div></div>
-<label><span class="lbl">Email</span><input class="inp" value=${e} onInput=${x=>setE(x.target.value)}/></label><label><span class="lbl">Password</span><input class="inp" type="password" value=${p} onInput=${x=>setP(x.target.value)} onKeyDown=${x=>x.key==='Enter'&&tr(e,p)}/></label>
+<label><span class="lbl">Email</span><input class="inp" type="email" autocomplete="username" placeholder="name@company.com" value=${e} onInput=${x=>setE(x.target.value)} onKeyDown=${x=>x.key==='Enter'&&tr(e,p)}/></label><label><span class="lbl">Password</span><input class="inp" type="password" autocomplete="current-password" value=${p} onInput=${x=>setP(x.target.value)} onKeyDown=${x=>x.key==='Enter'&&tr(e,p)}/></label>
 ${er&&html`<div style=${{color:'#dc2626'}}>${er}</div>`}<${Btn} r=${1} on=${()=>tr(e,p)}>Sign in<//>
-<div class="lbl">Demo accounts (one click):</div><div class="flex flex-wrap gap-1">${users.map(u=>html`<button class="chip" onClick=${()=>tr(u.email,u.pw)}>${u.role}</button>`)}</div></div></div>`}
+</div></div>`}
 function App(){const [db,setDb]=useState(seed),[meId,setMe]=useState(null),[tab,setTab]=useState('dash'),[modal,setModal]=useState(null),[col,setCol]=useState(innerWidth<700);
 const upd=(k,fn)=>setDb(p=>({...p,[k]:fn(p[k])}));
 useEffect(()=>{setDb(p=>{const t=p.bk.filter(b=>b.status==='Completed'&&!p.inv.some(i=>i.bid===b.id));return t.length?{...p,inv:[...p.inv,...t.map((b,k)=>({id:'INV-'+(1001+p.inv.length+k),bid:b.id,cid:b.cid,amt:amt(b,p),paid:0,due:iso(14),date:T,mail:'Draft',pays:[],cod:false}))]}:p})},[db.bk]);
